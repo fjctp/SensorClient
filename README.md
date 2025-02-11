@@ -1,2 +1,3 @@
 # SensorClient
-Read sensor data from android device using websocket. Depends on SensorServer.
+
+Connect to [SensorServer](https://github.com/umer0586/SensorServer) using websocket, read and plot sensor data in real-time.
