@@ -1,7 +1,12 @@
 using HTTP.WebSockets
 
-# Sensor defines required information to connect to a SensorServer.
+"""
+Sensor(address, port, kind)
+
+
+"""
 struct Sensor
+    ""
     address::String
     port::String
     kind::String

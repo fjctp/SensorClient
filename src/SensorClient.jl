@@ -1,3 +1,6 @@
+"""
+SensorClient package provides 
+"""
 module SensorClient
 
 # Include files
