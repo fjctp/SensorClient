@@ -3,9 +3,11 @@ using GLMakie
 
 function main()
     # Define parameters
-    address, port = ("192.168.1.203", "8080")
-    rate_hz_plot = 30.0
-    buffer_time = 4.0
+    address = get(ENV, "WS_ADDRESS", "localhost")
+    port = get(ENV, "WS_PORT", "8080")
+    plot_rate_hz = parse(Float32, get(ENV, "UPDATE_HZ", "30"))
+    buffer_sec = parse(Float32, get(ENV, "BUFFER_SEC", "4"))
+    @info "Loading Config:" address port plot_rate_hz buffer_sec
 
     sensor_cfgs = [
         # name, data rate in Hz
@@ -23,7 +25,7 @@ function main()
     # Create data buffers for live plot.
     buffers = map(sensor_cfgs) do cfg
         data_rate_hz = cfg[2]
-        buffer_size = round(Int, buffer_time*data_rate_hz)
+        buffer_size = round(Int, buffer_sec*data_rate_hz)
         SensorClient.LivePlotBuffer(buffer_size)
     end 
 
@@ -54,7 +56,7 @@ function main()
 
     # Update figures in main thread.
     # - creatation of Figure/Axis object and update!() has be on the same thread. Otherwise, OpenGL error... 
-    SensorClient.run_at(rate_hz_plot) do 
+    SensorClient.run_at(plot_rate_hz) do
         for ind in eachindex(sensors)
             try
                 SensorClient.update!(live_figs[ind], buffers[ind], buffer_locks[ind])
