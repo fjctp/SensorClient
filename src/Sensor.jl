@@ -1,13 +1,25 @@
 using HTTP.WebSockets
 
-# Sensor defines required information to connect to a SensorServer.
+"""
+A immutable struct holding SensorServer information.
+
+# Fields
+- address: websocket address of SensorSever.
+- port: websocket port of SensorSever.
+- kind: A valid sensor type defined by SensorSever.
+"""
 struct Sensor
     address::String
     port::String
     kind::String
 end
 
-# get_ws_url() returns a valid websocket server URL.
+"""
+Get a valid websocket server URL from a `Sensor`.
+
+# Arguments
+- s0: a `Sensor` struct that define SensorServer information.
+"""
 function get_ws_url(s0::Sensor)
     addr = """ws://$(s0.address):$(s0.port)/"""
     if occursin("gps", s0.kind)
@@ -17,7 +29,13 @@ function get_ws_url(s0::Sensor)
     end
 end
 
-# receive()
+"""
+Register a websocket message handler for a `Sensor`.
+
+# Arguments
+- handle: a function handler that accepts an arugement with type of `SensorData`.
+- s0: a `Sensor` struct that define SensorServer information.
+"""
 function receive(handle::Function, s0::Sensor)
     isgps = s0.kind == "gps"
 

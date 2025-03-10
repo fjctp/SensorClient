@@ -1,3 +1,19 @@
+"""
+SensorClient package receives and plots data from a SensorServer running on an Android device.
+
+# Sensor
+- receive(handle::Function, s0::Sensor)
+
+# SensorData
+- SensorData(raw_JSON_msg::String)
+
+# LivePlotBuffer
+- LivePlotBuffer(size::Uint32)
+
+# LiveFigure
+- update!(lf::LiveFigure, b::LivePlotBuffer, lk::ReentrantLock)
+
+"""
 module SensorClient
 
 # Include files
